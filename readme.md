@@ -1,0 +1,1 @@
+In this hobby project i create a password generator. The logic for creating the password is written in java. The frontend will be writte in react.
