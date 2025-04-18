@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class PasswordGenerator19 {
+public class PasswordGenerator {
     public static void main(String[] args) {
         System.out.println(generateSuperPassword(16));
 
