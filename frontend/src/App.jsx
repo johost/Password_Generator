@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PasswordGenerator from './components/PasswordGenerator'
 
 export default function App() {
   const [password, setPassword] = useState('')
@@ -11,8 +12,7 @@ export default function App() {
 
   return (
     <div>
-      <button onClick={generate}>Generate Password</button>
-      <p>{password}</p>
+      <PasswordGenerator />
     </div>
   )
 }
