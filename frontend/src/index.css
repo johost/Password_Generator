@@ -4,10 +4,13 @@
     justify-content: center;
     align-items: center;
     padding-top: 30vh;
-    gap: 2rem;
 }
-
+  
 .generate-button {
     padding: 1rem 2rem;
     width: auto;
+}
+
+.password-output {
+    margin: 2rem;
 }
