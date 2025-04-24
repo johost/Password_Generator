@@ -10,8 +10,14 @@ import java.util.Map;
 
 public class PasswordGenerator {
     public static void main(String[] args) {
-        System.out.println(generateSuperPassword(16));
-        findFrequency("hello");
+        String test = "hello";
+        int length = test.length();
+
+        HashMap<Character, Integer> freq = findFrequency(test);
+        HashMap<Character, Double> probs = computeProbabilities(freq, length);
+
+        System.out.println("Frequencies: " + freq);
+        System.out.println("Probabilities: " + probs);
     }
 
     public static String generatePassword(int length) {
@@ -85,7 +91,7 @@ public class PasswordGenerator {
         return passwordResult;
     }
 
-    public static void findFrequency(String password) {
+    public static HashMap<Character, Integer> findFrequency(String password) {
         HashMap<Character, Integer> charCountMap = new HashMap<>();
 
         for (char c : password.toCharArray()) {
@@ -95,9 +101,18 @@ public class PasswordGenerator {
                 charCountMap.put(c, 1);
             }
         }
-
-        for (Map.Entry<Character, Integer> entry: charCountMap.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        }
+        return charCountMap;
     }
+
+    public static HashMap<Character, Double> computeProbabilities(HashMap<Character, Integer> findFrequency, int length) {
+        HashMap<Character, Double> charProbability = new HashMap<>();
+
+        for (Map.Entry<Character, Integer> entry : findFrequency.entrySet()) {
+            charProbability.put(entry.getKey(), entry.getValue() / (double) length);
+        }
+        
+        return charProbability;
+    }
+
+
 }
