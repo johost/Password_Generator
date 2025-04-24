@@ -1,11 +1,11 @@
 package com.example.demo;
 import java.util.Random;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 public class PasswordGenerator {
@@ -15,9 +15,18 @@ public class PasswordGenerator {
 
         HashMap<Character, Integer> freq = findFrequency(test);
         HashMap<Character, Double> probs = computeProbabilities(freq, length);
+        HashMap<Character, Double> logarithms = computeLogarithms(probs);
+        HashMap<Character, Double> pTimesLogP = computePTimesLogP(logarithms, probs);
+        Double entropy = computeEntropy(pTimesLogP);
 
         System.out.println("Frequencies: " + freq);
         System.out.println("Probabilities: " + probs);
+        System.out.println("Logarithms: " + logarithms);
+        System.out.println("p * log2(p): "+ pTimesLogP);
+        System.out.println("Entropy: " + entropy);
+
+
+        //H=−∑pi​⋅log2​(pi​)
     }
 
     public static String generatePassword(int length) {
@@ -114,5 +123,33 @@ public class PasswordGenerator {
         return charProbability;
     }
 
+    public static HashMap<Character, Double> computeLogarithms(HashMap<Character, Double> computeProbabilities) {
+        HashMap<Character, Double> charLogarithms = new HashMap<>();
+        
+        for(Map.Entry<Character, Double> entry : computeProbabilities.entrySet()) {
+            charLogarithms.put(entry.getKey(), (Math.log(entry.getValue())) / Math.log(2));
+        }
 
+        return charLogarithms;
+    }
+
+    public static HashMap<Character, Double> computePTimesLogP(HashMap<Character, Double> computeLogarithms, HashMap<Character, Double> computeProbabilities) {
+        HashMap<Character, Double> charPMultiplications = new HashMap<>();
+
+        for (Map.Entry<Character, Double> entry : computeLogarithms.entrySet()) {
+            charPMultiplications.put(entry.getKey(), entry.getValue() * computeProbabilities.get(entry.getKey()));
+        }
+
+        return charPMultiplications;
+    }
+
+    public static Double computeEntropy(HashMap<Character, Double> computePTimesLogP) {
+        Double sum = 0.0;
+        for (Map.Entry<Character, Double> entry: computePTimesLogP.entrySet()) {
+            sum += entry.getValue();
+        }
+        Double entropy = 0.0;
+        entropy = -(sum);
+        return entropy;
+    }
 }
