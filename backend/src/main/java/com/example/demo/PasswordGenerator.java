@@ -1,6 +1,5 @@
 package com.example.demo;
 import java.util.Random;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
@@ -10,7 +9,8 @@ import java.util.Map;
 
 public class PasswordGenerator {
     public static void main(String[] args) {
-        String test = "hello";
+        //String test = "Hhr37q8GZU4ju43ffhrGDFG&§";
+        String test = generateSuperPassword(15);
         int length = test.length();
 
         HashMap<Character, Integer> freq = findFrequency(test);
@@ -19,6 +19,7 @@ public class PasswordGenerator {
         HashMap<Character, Double> pTimesLogP = computePTimesLogP(logarithms, probs);
         Double entropy = computeEntropy(pTimesLogP);
 
+        System.out.println(test);
         System.out.println("Frequencies: " + freq);
         System.out.println("Probabilities: " + probs);
         System.out.println("Logarithms: " + logarithms);
