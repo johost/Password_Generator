@@ -3,13 +3,15 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
 public class PasswordGenerator {
     public static void main(String[] args) {
         System.out.println(generateSuperPassword(16));
-
+        findFrequency("hello");
     }
 
     public static String generatePassword(int length) {
@@ -81,5 +83,21 @@ public class PasswordGenerator {
         String passwordResult = shuffledPassword.toString();
 
         return passwordResult;
+    }
+
+    public static void findFrequency(String password) {
+        HashMap<Character, Integer> charCountMap = new HashMap<>();
+
+        for (char c : password.toCharArray()) {
+            if (charCountMap.containsKey(c)) {
+                charCountMap.put(c, charCountMap.get(c) + 1);
+            } else {
+                charCountMap.put(c, 1);
+            }
+        }
+
+        for (Map.Entry<Character, Integer> entry: charCountMap.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
     }
 }
