@@ -24,6 +24,7 @@ public class PasswordGenerator {
         HashMap<Character, Double> logarithms = computeLogarithms(probs);
         HashMap<Character, Double> pTimesLogP = computePTimesLogP(logarithms, probs);
         Double entropy = computeEntropy(pTimesLogP);
+        Double theoreticalEntropy = findTheoreticalEntropy(sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY), length);
 
         //actual entropy in H=−∑pi​⋅log2​(pi​)
         System.out.println(test);
@@ -33,9 +34,16 @@ public class PasswordGenerator {
         System.out.println("p * log2(p): "+ pTimesLogP);
         System.out.println("Entropy: " + entropy);
 
-        //theoretical search space entropy
-        System.out.println("Character set size: " + sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY));
-
+        //theoretical search space entropy in E=L×log2​(N)
+        System.out.println("Character set size: " + sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY) + "\n");
+        System.out.println("Bits of Entropy | Brute-Force Resistance\n" + 
+            "< 40   |  Very weak (seconds)\n" +
+            "40–60  |  Weak (minutes–hours)\n" +
+            "60–80  |  Moderate–good (days–months)\n" +
+            "80–100 |  Strong (years)\n" +
+            "> 100  |  Very strong (centuries+)\n"
+        );
+        System.out.println("Potential password strength: "+ theoreticalEntropy);
     }
 
     public static String generatePassword(int length) {
@@ -166,5 +174,11 @@ public class PasswordGenerator {
         int sum = 0;
         sum = LOWERCASE_ARRAY.length + UPPERCASE_ARRAY.length + NUMBER_ARRAY.length + SPECIAL_CHAR_ARRAY.length;
         return sum;
+    }
+
+    public static Double findTheoreticalEntropy(int sumClassSizes, int length) {
+        //theoretical search space entropy in E=L×log2​(N)
+        Double theoreticalEntropy = length * (Math.log(sumClassSizes) / Math.log(2));
+        return theoreticalEntropy;
     }
 }
