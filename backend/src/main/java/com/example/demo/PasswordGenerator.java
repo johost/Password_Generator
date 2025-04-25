@@ -8,6 +8,12 @@ import java.util.Map;
 
 
 public class PasswordGenerator {
+    
+    private static final char[] LOWERCASE_ARRAY = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    private static final char[] UPPERCASE_ARRAY = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    private static final char[] NUMBER_ARRAY = "0123456789".toCharArray();
+    private static final char[] SPECIAL_CHAR_ARRAY = "~!@#$%^&*()_+".toCharArray();
+    
     public static void main(String[] args) {
         //String test = "Hhr37q8GZU4ju43ffhrGDFG&§";
         String test = generateSuperPassword(15);
@@ -19,6 +25,7 @@ public class PasswordGenerator {
         HashMap<Character, Double> pTimesLogP = computePTimesLogP(logarithms, probs);
         Double entropy = computeEntropy(pTimesLogP);
 
+        //actual entropy in H=−∑pi​⋅log2​(pi​)
         System.out.println(test);
         System.out.println("Frequencies: " + freq);
         System.out.println("Probabilities: " + probs);
@@ -26,8 +33,9 @@ public class PasswordGenerator {
         System.out.println("p * log2(p): "+ pTimesLogP);
         System.out.println("Entropy: " + entropy);
 
+        //theoretical search space entropy
+        System.out.println("Character set size: " + sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY));
 
-        //H=−∑pi​⋅log2​(pi​)
     }
 
     public static String generatePassword(int length) {
@@ -45,31 +53,31 @@ public class PasswordGenerator {
     }
 
     public static char lowercaseRandomLetter() {
-        char[] lowercaseArray = "abcedfghijklmnopqrstuvwxyz".toCharArray();
-        int randomIndex = new Random().nextInt(lowercaseArray.length);
-        char lowercaseLetter = lowercaseArray[randomIndex];
-        return lowercaseLetter;
+        //char[] lowercaseArray = "abcedfghijklmnopqrstuvwxyz".toCharArray();
+        int randomIndex = new Random().nextInt(LOWERCASE_ARRAY.length);
+        //char lowercaseLetter = lowercaseArray[randomIndex];
+        return LOWERCASE_ARRAY[randomIndex];
     }
     
     public static char uppercaseRandomLetter() {
-        char[] uppercaseArray = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-        int randomIndex = new Random().nextInt(uppercaseArray.length);
-        char uppercaseLetter = uppercaseArray[randomIndex];
-        return uppercaseLetter;
+        //char[] uppercaseArray = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        int randomIndex = new Random().nextInt(UPPERCASE_ARRAY.length);
+        //char uppercaseLetter = uppercaseArray[randomIndex];
+        return UPPERCASE_ARRAY[randomIndex];
     }
 
     public static char numberRandomLetter() {
-        char[] numberArray = "0123456789".toCharArray();
-        int randomIndex = new Random().nextInt(numberArray.length);
-        char number = numberArray[randomIndex];
-        return number;
+        //char[] numberArray = "0123456789".toCharArray();
+        int randomIndex = new Random().nextInt(NUMBER_ARRAY.length);
+        //char number = numberArray[randomIndex];
+        return NUMBER_ARRAY[randomIndex];
     }
 
     public static char specialRandomLetter() {
-        char[] specialcharArray = "~!@#$%^&*()_+".toCharArray();
-        int randomIndex = new Random().nextInt(specialcharArray.length);
-        char special = specialcharArray[randomIndex];
-        return special;
+        //char[] specialcharArray = "~!@#$%^&*()_+".toCharArray();
+        int randomIndex = new Random().nextInt(SPECIAL_CHAR_ARRAY.length);
+        //char special = specialcharArray[randomIndex];
+        return SPECIAL_CHAR_ARRAY[randomIndex];
     }
 
     public static String generateSuperPassword(int length) {
@@ -152,5 +160,11 @@ public class PasswordGenerator {
         Double entropy = 0.0;
         entropy = -(sum);
         return entropy;
+    }
+
+    public static int sumClassSizes(char[] LOWERCASE_ARRAY, char[] UPPERCASE_ARRAY, char[] NUMBER_ARRAY, char[] SPECIAL_CHAR_ARRAY) {
+        int sum = 0;
+        sum = LOWERCASE_ARRAY.length + UPPERCASE_ARRAY.length + NUMBER_ARRAY.length + SPECIAL_CHAR_ARRAY.length;
+        return sum;
     }
 }
