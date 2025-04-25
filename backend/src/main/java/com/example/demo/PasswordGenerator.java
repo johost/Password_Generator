@@ -27,12 +27,12 @@ public class PasswordGenerator {
         Double theoreticalEntropy = findTheoreticalEntropy(sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY), length);
 
         //actual entropy in H=−∑pi​⋅log2​(pi​)
-        System.out.println(test);
+        System.out.println("Password: " + test + "\n");
         System.out.println("Frequencies: " + freq);
         System.out.println("Probabilities: " + probs);
         System.out.println("Logarithms: " + logarithms);
-        System.out.println("p * log2(p): "+ pTimesLogP);
-        System.out.println("Entropy: " + entropy);
+        System.out.println("p * log2(p): "+ pTimesLogP + "\n");
+        System.out.println("Entropy: " + entropy + "\n");
 
         //theoretical search space entropy in E=L×log2​(N)
         System.out.println("Character set size: " + sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY) + "\n");
@@ -44,6 +44,33 @@ public class PasswordGenerator {
             "> 100  |  Very strong (centuries+)\n"
         );
         System.out.println("Potential password strength: "+ theoreticalEntropy);
+    }
+
+    public static Map<String, Object> generatePasswordDetails(int length) {
+        String test = generateSuperPassword(length);
+        int passwordLength = test.length();
+    
+        HashMap<Character, Integer> freq = findFrequency(test);
+        HashMap<Character, Double> probs = computeProbabilities(freq, passwordLength);
+        HashMap<Character, Double> logarithms = computeLogarithms(probs);
+        HashMap<Character, Double> pTimesLogP = computePTimesLogP(logarithms, probs);
+        Double entropy = computeEntropy(pTimesLogP);
+        Double theoreticalEntropy = findTheoreticalEntropy(
+            sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY), 
+            passwordLength
+        );
+    
+        Map<String, Object> result = new HashMap<>();
+        result.put("password", test);
+        result.put("frequencies", freq);
+        result.put("probabilities", probs);
+        result.put("logarithms", logarithms);
+        result.put("pTimesLogP", pTimesLogP);
+        result.put("entropy", entropy);
+        result.put("theoreticalEntropy", theoreticalEntropy);
+        result.put("characterSetSize", sumClassSizes(LOWERCASE_ARRAY, UPPERCASE_ARRAY, NUMBER_ARRAY, SPECIAL_CHAR_ARRAY));
+    
+        return result;
     }
 
     public static String generatePassword(int length) {
@@ -182,3 +209,4 @@ public class PasswordGenerator {
         return theoreticalEntropy;
     }
 }
+
