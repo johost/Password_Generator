@@ -72,7 +72,7 @@ export default function PasswordGenerator() {
           <div className="strength-indicator">
             <h3>Password Strength</h3>
             <div className="strength-content">
-              <p>Entropy: {details.entropy.toFixed(2)} bits</p>
+              <p>Current Entropy: {details.entropy.toFixed(2)} bits</p>
               <p>Theoretical max: {theoreticalMax.toFixed(2)} bits</p>
               <p>
                 Theoretical max strength:{' '}
